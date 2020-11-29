@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+
+  db:
+    image: mysql:5.7
+    restart: always
+    container_name: db
+    environment:
+      MYSQL_DATABASE: biblioteca
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 12345
+      MYSQL_ROOT_PASSWORD: 12345
+    ports:
+      - '3306:3306'
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  grupo1-back:
+    container_name: grupo1-back
+    hostname: grupo1-back                  # hostmane para registro en eureka
+    image: grupo1-back
+    depends_on:
+      - db
+    build:
+      context: ./grupo1-back
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"              # add metadata to a container, flag to indicate log be collect wit file beat
+    restart: on-failure:4
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: root
+      DATABASE_PASSWORD: 12345
+      DATABASE_NAME: biblioteca
+      DATABASE_PORT: 3306
+
+  grupo1-front:
+    container_name: grupo1-front
+    build:
+      context: ./grupo1-front
+      dockerfile: Dockerfile
+    depends_on:
+      - grupo1-back
+    volumes:
+      - 'grupo1-front:/app'
+      - '/app/node_modules'
+    ports:
+      - '4201:4200'
+
+volumes:
+    db_data:
+    grupo1-front:
