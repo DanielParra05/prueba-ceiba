@@ -19,7 +19,7 @@ services:
            retries: 10
     restart: always
   backendserver:
-    build: ./
+    build: ./grupo1-back/
     ports:
            - "8080"
     links:
@@ -28,7 +28,7 @@ services:
            - "db"
     restart: always
   frontend:
-    build: ./grupo1-front/
+    build: ./
     links:
            - "backendserver"
     depends_on:
