@@ -1,0 +1,6 @@
+[submodule "grupo1-back"]
+	path = grupo1-back
+	url = https://github.com/DanielParra05/grupo1-back.git
+[submodule "grupo1-front"]
+	path = grupo1-front
+	url = https://github.com/DanielParra05/grupo1-front.git
