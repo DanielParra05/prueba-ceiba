@@ -19,7 +19,7 @@ services:
            retries: 10
     restart: always
   backendserver:
-    build: ./grupo1-back/
+    build: ./
     ports:
            - "8080"
     links:
